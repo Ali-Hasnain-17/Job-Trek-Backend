@@ -38,7 +38,9 @@ export const isAuthenticated = asyncHandler(
       throw new Error("Invalid Token");
     }
 
-    const user = await prisma.user.findUnique({ where: { email: decoded.email } });
+    const user = await prisma.user.findUnique({
+      where: { email: decoded.email },
+    });
     req.user = user;
     next();
   }

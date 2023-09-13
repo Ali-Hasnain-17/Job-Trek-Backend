@@ -4,10 +4,16 @@ import jwt from "jsonwebtoken";
 
 import { prisma } from "../db";
 import { Request, Response } from "express";
-import { LoginRequest, LogoutRequest, RegisterRequest, User } from "../types/authTypes";
+import {
+  LoginRequest,
+  LogoutRequest,
+  RegisterRequest,
+  User,
+} from "../types/authTypes";
 
 export const register = asyncHandler(async (req: Request, res: Response) => {
-  const { firstName, lastName, email, password, role } = req.body as RegisterRequest;
+  const { firstName, lastName, email, password, contactNumber, role } =
+    req.body as RegisterRequest;
 
   // hash password
   const hashedPassowrd = await bcrypt.hash(password, 10);
@@ -17,6 +23,7 @@ export const register = asyncHandler(async (req: Request, res: Response) => {
       firstName,
       lastName,
       email,
+      contactNumber,
       password: hashedPassowrd,
       role,
     },
@@ -63,8 +70,6 @@ export const login = asyncHandler(async (req: Request, res: Response) => {
 export const logout = asyncHandler(async (req: Request, res: Response) => {
   const { jwtToken } = req.body as LogoutRequest;
 
-  console.log(jwtToken);
-
   const revokedToken = await prisma.revokedToken.create({
     data: {
       token: jwtToken,
@@ -80,5 +85,7 @@ export const logout = asyncHandler(async (req: Request, res: Response) => {
 });
 
 function generateJWT(user: User) {
-  return jwt.sign({ id: user.id, email: user.email }, process.env.JWT_SECRET, { expiresIn: "30d" });
+  return jwt.sign({ id: user.id, email: user.email }, process.env.JWT_SECRET, {
+    expiresIn: "30d",
+  });
 }

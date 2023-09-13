@@ -8,12 +8,14 @@ datasource db {
 }
 
 model User {
-  id        String @id @default(uuid())
-  firstName String
-  lastName  String
-  email     String @unique
-  password  String
-  role      String
+  id            String           @id @default(uuid())
+  firstName     String
+  lastName      String
+  email         String           @unique
+  contactNumber String
+  password      String
+  role          String
+  application   JobApplication[]
 }
 
 model RevokedToken {
@@ -22,15 +24,29 @@ model RevokedToken {
 }
 
 model Job {
-  id              String   @id @default(uuid())
-  title           String
-  companyName     String
-  description     String
-  city            String
-  country         String
-  type            String
-  experienceLevel Int
-  applyUrl        String
-  applicants      Int      @default(0)
-  postedAt        DateTime @default(now())
+  id                  String           @id @default(uuid())
+  title               String
+  companyName         String
+  detailedDescription String
+  location            String
+  shortDescription    String
+  mode                String
+  experience          String
+  type                String
+  applicants          Int              @default(0)
+  postedAt            DateTime         @default(now())
+  applications        JobApplication[]
+}
+
+model JobApplication {
+  id                  String  @id @default(uuid())
+  name                String
+  applicantExperience Int
+  githubUrl           String?
+  linkedinUrl         String?
+  resumeUrl           String
+  jobId               String
+  job                 Job     @relation(fields: [jobId], references: [id])
+  userId              String
+  user                User    @relation(fields: [userId], references: [id])
 }

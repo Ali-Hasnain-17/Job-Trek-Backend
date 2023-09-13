@@ -1,10 +1,18 @@
 export interface CreateJobRequest {
   title: string;
-  description: string;
-  experienceLevel: number;
+  shortDescription: string;
+  detailedDescription: string;
+  experience: string;
   companyName: string;
-  city: string;
-  country: string;
+  location: string;
   type: string;
-  applyUrl: string;
+  mode: string;
+}
+
+export interface JobApplicationRequest {
+  name: string;
+  experience: number;
+  githubUrl?: string;
+  linkedinUrl?: string;
+  resumeUrl: string;
 }
