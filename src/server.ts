@@ -1,4 +1,4 @@
-import express, { Response } from "express";
+import express, { Request, Response } from "express";
 import dotenv from "dotenv";
 import cors from "cors";
 
@@ -20,11 +20,19 @@ app.use(
 );
 
 // routes
+app.get("/", (req: Request, res: Response) => {
+  res.send("<h1>Welcome to Job Trek</h1>");
+});
 app.use("/api/auth", authRoutes);
 app.use("/api/job", jobRoutes);
-app.get("/", isAuthenticated, hasRole("JobSeeker"), (req: CustomRequest, res: Response) => {
-  res.send("Welcome");
-});
+app.get(
+  "/",
+  isAuthenticated,
+  hasRole("JobSeeker"),
+  (req: CustomRequest, res: Response) => {
+    res.send("Welcome");
+  }
+);
 
 app.use(errorHandler);
 app.use(notFound);
