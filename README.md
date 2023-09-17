@@ -1,2 +1,2 @@
-# Videohub-backend-node
-Videohub backend using node and typescript
+# JOB TREK BACKEND
+job hunting app usimg node and postgres
