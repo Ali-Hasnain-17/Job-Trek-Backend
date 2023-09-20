@@ -25,14 +25,6 @@ app.get("/", (req: Request, res: Response) => {
 });
 app.use("/api/auth", authRoutes);
 app.use("/api/job", jobRoutes);
-app.get(
-  "/",
-  isAuthenticated,
-  hasRole("JobSeeker"),
-  (req: CustomRequest, res: Response) => {
-    res.send("Welcome");
-  }
-);
 
 app.use(errorHandler);
 app.use(notFound);
